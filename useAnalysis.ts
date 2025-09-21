@@ -1,3 +1,4 @@
+
 import { useState, useCallback } from 'react';
 import { type AnalysisResult, type InputMode, type AppError } from './types';
 import { analyzeSkillsWithText, analyzeSkillsWithPdf } from './services/geminiService';
@@ -12,10 +13,21 @@ interface RunAnalysisParams {
 }
 
 /**
+ * @typedef {object} UseAnalysisReturn
+ * @property {boolean} isLoading - True if the analysis is currently in progress.
+ * @property {AppError | null} error - An error object if the analysis failed, otherwise null.
+ * @property {AnalysisResult | null} analysisResult - The result of a successful analysis.
+ * @property {boolean} isModalOpen - True if the results modal should be displayed.
+ * @property {(params: RunAnalysisParams) => Promise<void>} runAnalysis - Function to trigger a new analysis.
+ * @property {() => void} closeModal - Function to close the results modal.
+ */
+
+/**
  * Custom hook to encapsulate the entire skill analysis logic.
  * This hook manages the state for loading, errors, and results,
  * abstracting the complexity away from the main App component.
- * @returns An object containing the analysis state and the function to trigger the analysis.
+ * It provides a clean, reusable interface for the analysis functionality.
+ * @returns {UseAnalysisReturn} An object containing the analysis state and control functions.
  */
 export function useAnalysis() {
     const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
@@ -66,12 +78,16 @@ export function useAnalysis() {
         }
     }, []);
 
+    const closeModal = useCallback(() => {
+        setIsModalOpen(false);
+    }, []);
+
     return {
         isLoading,
         error,
         analysisResult,
         isModalOpen,
         runAnalysis,
-        closeModal: () => setIsModalOpen(false),
+        closeModal,
     };
 }

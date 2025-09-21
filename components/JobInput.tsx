@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 interface JobInputProps {
@@ -17,7 +18,7 @@ export const JobInput = ({ value, onChange }: JobInputProps): React.JSX.Element 
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder="Paste the full job description here..."
-                className="w-full flex-grow p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow duration-200 resize-none min-h-[300px]"
+                className="w-full flex-grow p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow duration-200 resize-none min-h-[300px] transition-colors"
             />
         </div>
     );

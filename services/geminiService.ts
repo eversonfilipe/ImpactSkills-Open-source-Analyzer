@@ -1,7 +1,14 @@
+
 import { GoogleGenAI, Type, type GenerateContentParameters } from "@google/genai";
 import { type AnalysisResult } from '../types';
 import { GEMINI_MODEL } from '../config';
 import { createTextAnalysisPrompt, createPdfAnalysisPrompt } from '../promptService';
+
+/**
+ * This service module encapsulates all interactions with the Google Gemini API.
+ * It handles the construction of API requests, specifies the response schema,
+ * and processes the response.
+ */
 
 // This check ensures that the API key is available.
 if (!process.env.API_KEY) {
@@ -13,7 +20,8 @@ if (!process.env.API_KEY) {
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 
 // Define the expected JSON schema for the AI's response.
-// This ensures we get structured, predictable data back from the model.
+// This ensures we get structured, predictable data back from the model,
+// which is crucial for reliably displaying the results.
 const responseSchema = {
     type: Type.OBJECT,
     properties: {
@@ -34,8 +42,10 @@ const responseSchema = {
 
 /**
  * A generic function to perform the analysis by calling the Gemini API.
+ * It centralizes the API call logic, including model configuration and error handling.
  * @param contents - The contents (prompt and/or files) to send to the model.
  * @returns A promise that resolves to an AnalysisResult object.
+ * @throws Will throw an error if the API call fails or the response cannot be parsed.
  */
 async function performAnalysis(contents: GenerateContentParameters['contents']): Promise<AnalysisResult> {
     try {
@@ -45,7 +55,7 @@ async function performAnalysis(contents: GenerateContentParameters['contents']):
             config: {
                 responseMimeType: 'application/json',
                 responseSchema: responseSchema,
-                temperature: 0.2, // Lower temperature for more deterministic results
+                temperature: 0.2, // Lower temperature for more deterministic and consistent results
             }
         });
         

@@ -1,3 +1,4 @@
+
 // Centralized configuration for the application.
 
 /**
@@ -5,6 +6,13 @@
  * Using a centralized constant makes it easy to update the model in one place.
  */
 export const GEMINI_MODEL = 'gemini-2.5-flash';
+
+/**
+ * The maximum file size in megabytes (MB) allowed for a user's CV upload.
+ * This helps prevent excessively large files from being processed.
+ */
+export const MAX_CV_SIZE_MB = 5;
+
 
 /**
  * Checks if the Google AI API key is set in the environment variables.

@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { type InputMode } from '../types';
 import { DocumentIcon } from './icons/DocumentIcon';
 import { TextIcon } from './icons/TextIcon';
+import { MAX_CV_SIZE_MB } from '../config';
 
 interface SkillsInputProps {
     inputMode: InputMode;
@@ -40,12 +42,24 @@ export const SkillsInput = ({
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            // Basic validation for PDF files
-            if (e.target.files[0].type === 'application/pdf') {
-                setCvFile(e.target.files[0]);
-            } else {
+            const file = e.target.files[0];
+            const maxSizeInBytes = MAX_CV_SIZE_MB * 1024 * 1024;
+
+            // Validate file type
+            if (file.type !== 'application/pdf') {
                 alert("Please upload a valid PDF file.");
+                e.target.value = ''; // Reset input
+                return;
             }
+            
+            // Validate file size
+            if (file.size > maxSizeInBytes) {
+                alert(`The file size cannot exceed ${MAX_CV_SIZE_MB}MB.`);
+                e.target.value = ''; // Reset input
+                return;
+            }
+            
+            setCvFile(file);
         }
         // Reset the input value to allow re-uploading the same file name
         e.target.value = '';
@@ -90,7 +104,7 @@ export const SkillsInput = ({
                         value={skillsText}
                         onChange={(e) => setSkillsText(e.target.value)}
                         placeholder="List your skills, separated by commas (e.g., React, TypeScript, Node.js)..."
-                        className="w-full h-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow duration-200 resize-none min-h-[250px]"
+                        className="w-full h-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow duration-200 resize-none min-h-[250px] transition-colors"
                     />
                 ) : (
                     <div className="flex items-center justify-center w-full h-full min-h-[250px]">
@@ -108,7 +122,7 @@ export const SkillsInput = ({
                                 ) : (
                                     <>
                                         <p className="mb-2 text-sm text-slate-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                                        <p className="text-xs text-slate-500">PDF (MAX. 5MB)</p>
+                                        <p className="text-xs text-slate-500">PDF (MAX. {MAX_CV_SIZE_MB}MB)</p>
                                     </>
                                 )}
                             </div>
