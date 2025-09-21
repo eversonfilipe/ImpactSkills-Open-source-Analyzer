@@ -1,9 +1,8 @@
-
 import React from 'react';
 
 // A simple, static component for the application header.
 // It displays the app name and a subtitle.
-export const Header: React.FC = () => {
+export const Header = (): React.JSX.Element => {
     return (
         <header className="bg-white shadow-sm">
             <div className="container mx-auto px-4 py-6 text-center">

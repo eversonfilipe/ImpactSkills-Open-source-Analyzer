@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface JobInputProps {
@@ -7,7 +6,7 @@ interface JobInputProps {
 }
 
 // This component is a styled wrapper around a textarea for the job description.
-export const JobInput: React.FC<JobInputProps> = ({ value, onChange }) => {
+export const JobInput = ({ value, onChange }: JobInputProps): React.JSX.Element => {
     return (
         <div className="bg-white p-6 rounded-xl shadow-md border border-slate-200 h-full flex flex-col">
             <label htmlFor="job-description" className="block text-xl font-display font-bold text-blue-900 mb-3">

@@ -13,7 +13,7 @@ interface SkillsInputProps {
 }
 
 // A small 'X' button for removing the selected file.
-const RemoveFileButton: React.FC<{ onClick: (e: React.MouseEvent) => void }> = ({ onClick }) => (
+const RemoveFileButton = ({ onClick }: { onClick: (e: React.MouseEvent) => void }): React.JSX.Element => (
     <button
         type="button"
         onClick={onClick}
@@ -29,14 +29,14 @@ const RemoveFileButton: React.FC<{ onClick: (e: React.MouseEvent) => void }> = (
 
 // This component handles both text and file inputs for user skills,
 // with a toggle to switch between the two modes.
-export const SkillsInput: React.FC<SkillsInputProps> = ({
+export const SkillsInput = ({
     inputMode,
     setInputMode,
     skillsText,
     setSkillsText,
     cvFile,
     setCvFile,
-}) => {
+}: SkillsInputProps): React.JSX.Element => {
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {

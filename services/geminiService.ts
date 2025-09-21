@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type, type GenerateContentParameters } from "@google/genai";
 import { type AnalysisResult } from '../types';
 import { GEMINI_MODEL } from '../config';
-import { createTextAnalysisPrompt, createPdfAnalysisPrompt } from './promptService';
+import { createTextAnalysisPrompt, createPdfAnalysisPrompt } from '../promptService';
 
 // This check ensures that the API key is available.
 if (!process.env.API_KEY) {

@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -7,7 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 // A reusable button component with consistent styling.
 // It accepts all standard button attributes, including `onClick` and `disabled`.
-export const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
+export const Button = ({ children, ...props }: ButtonProps): React.JSX.Element => {
     return (
         <button
             {...props}

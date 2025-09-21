@@ -1,8 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { type AnalysisResult } from '../types';
 
+interface SkillListProps {
+    title: string;
+    skills: string[];
+    className: string;
+}
+
 // A component that renders a list of skills.
-const SkillList: React.FC<{ title: string; skills: string[]; className: string }> = ({ title, skills, className }) => (
+const SkillList = ({ title, skills, className }: SkillListProps): React.JSX.Element => (
     <div>
         <h3 className={`text-lg font-display font-semibold mb-3 ${className}`}>
             {title}
@@ -24,14 +30,13 @@ const SkillList: React.FC<{ title: string; skills: string[]; className: string }
     </div>
 );
 
-// FIX: Add missing interface for AnalysisModal props.
 interface AnalysisModalProps {
     result: AnalysisResult;
     onClose: () => void;
 }
 
 // This component displays the AI analysis results in a modal dialog.
-export const AnalysisModal: React.FC<AnalysisModalProps> = ({ result, onClose }) => {
+export const AnalysisModal = ({ result, onClose }: AnalysisModalProps): React.JSX.Element => {
     const closeButtonRef = useRef<HTMLButtonElement>(null);
 
     // Focus the close button when the modal opens for better keyboard navigation.
