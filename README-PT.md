@@ -1,5 +1,6 @@
 # ImpactSkills: Analisador de Habilidades Open-source
 
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Ver%20C%C3%B3digo-blue?logo=github)](https://github.com/eversonfilipe/ImpactSkills-Open-source-Analyzer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Uma ferramenta com Inteligência Artificial para analisar descrições de vagas em comparação com suas habilidades, identificando pontos fortes e áreas para desenvolvimento. Este projeto foi criado por **Éverson Filipe** como projeto final do programa de mentoria **Lab.AI**, uma parceria entre o **Instituto Localiza** e o **Instituto Joule**.
@@ -68,9 +69,10 @@ Levamos a segurança deste projeto a sério. Se você descobrir uma vulnerabilid
 ## 📄 Licença
 
 Este projeto está licenciado sob a Licença MIT
+
 ## 🙏 Agradecimentos
 
-- **Éverson Filipe** - Criador do Projeto
+- **Éverson Filipe** ([@eversonfilipe](https://github.com/eversonfilipe)) - Criador do Projeto
 - **Programa de Mentoria Lab.AI**
 - **Instituto Localiza**
 - **Instituto Joule**

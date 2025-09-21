@@ -8,7 +8,7 @@ Apenas a versão mais recente do ImpactSkills recebe atualizações de seguranç
 
 A equipe e a comunidade do ImpactSkills levam todos os bugs de segurança a sério. Agradecemos por melhorar a segurança do nosso software de código aberto. Valorizamos seus esforços e a divulgação responsável e faremos o possível para reconhecer suas contribuições.
 
-Para relatar uma vulnerabilidade de segurança, por favor, envie um e-mail para um endereço privado (ex: `eversonfilipe124@gmail.com`) com o assunto "SEGURANÇA: Vulnerabilidade no ImpactSkills".
+Para relatar uma vulnerabilidade de segurança, por favor, envie um e-mail para `eversonfilipe124@gmail.com` com o assunto "SEGURANÇA: Vulnerabilidade no ImpactSkills".
 
 Por favor, inclua as seguintes informações em seu relatório:
 
