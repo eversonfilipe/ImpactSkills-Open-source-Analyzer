@@ -1,20 +1,75 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# ImpactSkills: Open-source Skills Analyzer
 
-# Run and deploy your AI Studio app
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This contains everything you need to run your app locally.
+An AI-powered tool to analyze job descriptions against your skills, identifying strengths and areas for development. This project was created by **Éverson Filipe** as the final project for the **Lab.AI** mentorship program, a partnership between **Instituto Localiza** and **Instituto Joule**.
 
-View your app in AI Studio: https://ai.studio/apps/drive/15nvCgO0YdFQZeSj_0A05mJEl1zPrmbmG
+[Read this in Portuguese / Leia em Português](./README-PT.md)
 
-## Run Locally
+---
 
-**Prerequisites:**  Node.js
+## ✨ Key Features
+
+- **AI-Powered Analysis**: Leverages Google's Gemini AI to provide a deep comparison between a job description and your qualifications.
+- **Dual Input Modes**: Paste your skills as text or simply upload your CV in PDF format for a comprehensive analysis.
+- **Actionable Insights**: Receive two clear lists: "Your Strengths" (skills that match the job) and "Areas to Develop" (skills you need to acquire).
+- **Modern & Responsive UI**: A clean, professional, and responsive interface built with React and Tailwind CSS.
+- **Secure & Private**: All processing is done without storing your personal data. Your information is sent securely for analysis and is not retained.
+
+## 🚀 Tech Stack
+
+- **Frontend**: React 19, TypeScript
+- **Styling**: Tailwind CSS
+- **AI**: Google Gemini API (`gemini-2.5-flash`)
+- **Modularity**: Built with reusable components and custom hooks for scalability.
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+- A modern web browser.
+- A Google AI API Key.
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+2.  **Set up your API Key:**
+    This application requires a Google AI API key to function. You must set it as an environment variable named `API_KEY`.
+
+    - Create a file named `.env` in the root of the project.
+    - Add your API key to this file:
+      ```
+      API_KEY=your_google_ai_api_key_here
+      ```
+    - The application will automatically use this key.
+
+3.  **Run the application:**
+    Open the `index.html` file in your web browser, or serve the directory using a local web server.
+
+## 📖 How to Use
+
+1.  **Add Job Description**: Paste the complete text of the job description you are interested in into the left-hand panel.
+2.  **Provide Your Skills**:
+    - **Option A (Text)**: In the right-hand panel, list your professional skills, separated by commas.
+    - **Option B (PDF)**: Click the "Upload CV (PDF)" toggle and upload your resume.
+3.  **Analyze**: Click the "Analyze My Skills" button.
+4.  **Review Results**: A modal will appear showing your matched skills and the skills you should focus on developing.
+
+## 🤝 Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+Please read our [**Contributing Guidelines**](./docs/CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## 🛡️ Security Policy
+
+We take the security of this project seriously. If you discover a security vulnerability, please follow our [**Security Policy**](./docs/SECURITY.md) to report it.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+## 🙏 Acknowledgements
+
+- **Éverson Filipe** - Project Creator
+- **Lab.AI Mentorship Program**
+- **Instituto Localiza**
+- **Instituto Joule**
