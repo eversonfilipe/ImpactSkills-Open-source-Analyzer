@@ -1,5 +1,8 @@
 # ImpactSkills: Open-source Skills Analyzer
 
+<img width="1920" height="1080" alt="Captura de tela 2025-09-20 224919. Na tela, aparece a interface da aplicação open-source de Éverson Filipe. Com dois campos principais." src="https://github.com/user-attachments/assets/efd66577-4ccd-45fa-a1a5-59f44ef9c261" />
+
+
 [![GitHub Repo](https://img.shields.io/badge/GitHub-View%20Source-blue?logo=github)](https://github.com/eversonfilipe/ImpactSkills-Open-source-Analyzer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
