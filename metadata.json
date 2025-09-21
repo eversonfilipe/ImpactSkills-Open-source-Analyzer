@@ -1,0 +1,5 @@
+{
+  "name": "ImpactSkills: Open-source Analyzer",
+  "description": "An AI-powered tool to analyze job descriptions against your skills, identifying strengths and areas for development. Created by Éverson Filipe for the Lab.AI mentorship program.",
+  "requestFramePermissions": []
+}
