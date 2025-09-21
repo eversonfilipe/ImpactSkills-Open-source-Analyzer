@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { type InputMode } from '../types';
 import { DocumentIcon } from './icons/DocumentIcon';
@@ -13,6 +12,21 @@ interface SkillsInputProps {
     setCvFile: (file: File | null) => void;
 }
 
+// A small 'X' button for removing the selected file.
+const RemoveFileButton: React.FC<{ onClick: (e: React.MouseEvent) => void }> = ({ onClick }) => (
+    <button
+        type="button"
+        onClick={onClick}
+        className="ml-2 text-slate-400 hover:text-red-600 transition-colors"
+        aria-label="Remove file"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+        </svg>
+    </button>
+);
+
+
 // This component handles both text and file inputs for user skills,
 // with a toggle to switch between the two modes.
 export const SkillsInput: React.FC<SkillsInputProps> = ({
@@ -26,8 +40,20 @@ export const SkillsInput: React.FC<SkillsInputProps> = ({
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            setCvFile(e.target.files[0]);
+            // Basic validation for PDF files
+            if (e.target.files[0].type === 'application/pdf') {
+                setCvFile(e.target.files[0]);
+            } else {
+                alert("Please upload a valid PDF file.");
+            }
         }
+        // Reset the input value to allow re-uploading the same file name
+        e.target.value = '';
+    };
+
+    const handleRemoveFile = (e: React.MouseEvent) => {
+        e.stopPropagation(); // Prevent the file input from opening
+        setCvFile(null);
     };
 
     return (
@@ -41,6 +67,7 @@ export const SkillsInput: React.FC<SkillsInputProps> = ({
                 <button
                     onClick={() => setInputMode('text')}
                     className={`w-1/2 flex items-center justify-center gap-2 p-2 rounded-md transition-colors duration-200 ${inputMode === 'text' ? 'bg-white text-blue-700 shadow' : 'text-slate-600 hover:bg-slate-200'}`}
+                    aria-pressed={inputMode === 'text'}
                 >
                     <TextIcon />
                     List Skills
@@ -48,6 +75,7 @@ export const SkillsInput: React.FC<SkillsInputProps> = ({
                 <button
                     onClick={() => setInputMode('pdf')}
                     className={`w-1/2 flex items-center justify-center gap-2 p-2 rounded-md transition-colors duration-200 ${inputMode === 'pdf' ? 'bg-white text-blue-700 shadow' : 'text-slate-600 hover:bg-slate-200'}`}
+                    aria-pressed={inputMode === 'pdf'}
                 >
                     <DocumentIcon />
                     Upload CV (PDF)
@@ -67,13 +95,16 @@ export const SkillsInput: React.FC<SkillsInputProps> = ({
                 ) : (
                     <div className="flex items-center justify-center w-full h-full min-h-[250px]">
                         <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-full border-2 border-slate-300 border-dashed rounded-lg cursor-pointer bg-slate-50 hover:bg-slate-100">
-                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center px-2">
                                 <DocumentIcon className="w-10 h-10 mb-3 text-slate-400" />
                                 {cvFile ? (
-                                    <>
-                                        <p className="mb-2 text-sm text-slate-700 font-semibold">{cvFile.name}</p>
-                                        <p className="text-xs text-slate-500">{(cvFile.size / 1024).toFixed(2)} KB</p>
-                                    </>
+                                    <div className="flex items-center">
+                                        <div>
+                                            <p className="mb-1 text-sm text-slate-700 font-semibold break-all">{cvFile.name}</p>
+                                            <p className="text-xs text-slate-500">{(cvFile.size / 1024).toFixed(2)} KB</p>
+                                        </div>
+                                        <RemoveFileButton onClick={handleRemoveFile} />
+                                    </div>
                                 ) : (
                                     <>
                                         <p className="mb-2 text-sm text-slate-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>

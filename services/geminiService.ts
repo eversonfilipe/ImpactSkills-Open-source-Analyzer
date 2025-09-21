@@ -1,15 +1,16 @@
-
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI, Type, type GenerateContentParameters } from "@google/genai";
 import { type AnalysisResult } from '../types';
+import { GEMINI_MODEL } from '../config';
+import { createTextAnalysisPrompt, createPdfAnalysisPrompt } from './promptService';
 
 // This check ensures that the API key is available.
-// In a real-world scenario, you would have a more robust configuration system.
 if (!process.env.API_KEY) {
-    throw new Error("API_KEY environment variable not set");
+    // A console warning is helpful for developers, but the UI will handle the user-facing error.
+    console.warn("API_KEY environment variable not set. The application will show a configuration error.");
 }
 
 // Initialize the GoogleGenAI client with the API key from environment variables.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 
 // Define the expected JSON schema for the AI's response.
 // This ensures we get structured, predictable data back from the model.
@@ -32,42 +33,19 @@ const responseSchema = {
 
 
 /**
- * Analyzes skills based on text input.
- * @param jobDescription - The full text of the job description.
- * @param userSkills - A comma-separated string of the user's skills.
+ * A generic function to perform the analysis by calling the Gemini API.
+ * @param contents - The contents (prompt and/or files) to send to the model.
  * @returns A promise that resolves to an AnalysisResult object.
  */
-export async function analyzeSkillsWithText(jobDescription: string, userSkills: string): Promise<AnalysisResult> {
-    const prompt = `
-        You are an expert career advisor and skills analyst. Your task is to compare a job description with a user's list of skills.
-
-        Analyze the following job description and the user's skills.
-        
-        **Job Description:**
-        ---
-        ${jobDescription}
-        ---
-        
-        **User's Skills:**
-        ---
-        ${userSkills}
-        ---
-        
-        Based on your analysis, identify two lists of skills:
-        1.  **Matched Skills:** Skills the user has that are directly mentioned or strongly implied in the job description.
-        2.  **Skills to Develop:** Key skills required by the job description that are missing from the user's list.
-        
-        Provide a concise list of the most important skills for each category.
-    `;
-
+async function performAnalysis(contents: GenerateContentParameters['contents']): Promise<AnalysisResult> {
     try {
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
+            model: GEMINI_MODEL,
+            contents,
             config: {
                 responseMimeType: 'application/json',
                 responseSchema: responseSchema,
-                temperature: 0.2,
+                temperature: 0.2, // Lower temperature for more deterministic results
             }
         });
         
@@ -75,8 +53,21 @@ export async function analyzeSkillsWithText(jobDescription: string, userSkills: 
         return JSON.parse(jsonText) as AnalysisResult;
     } catch (error) {
         console.error("Error calling Gemini API:", error);
+        // Re-throw the error to be handled by the calling function in the useAnalysis hook.
         throw new Error("Failed to get analysis from Gemini API.");
     }
+}
+
+
+/**
+ * Analyzes skills based on text input.
+ * @param jobDescription - The full text of the job description.
+ * @param userSkills - A comma-separated string of the user's skills.
+ * @returns A promise that resolves to an AnalysisResult object.
+ */
+export async function analyzeSkillsWithText(jobDescription: string, userSkills: string): Promise<AnalysisResult> {
+    const prompt = createTextAnalysisPrompt(jobDescription, userSkills);
+    return performAnalysis(prompt);
 }
 
 
@@ -88,45 +79,12 @@ export async function analyzeSkillsWithText(jobDescription: string, userSkills: 
  * @returns A promise that resolves to an AnalysisResult object.
  */
 export async function analyzeSkillsWithPdf(jobDescription: string, base64pdf: string, mimeType: string): Promise<AnalysisResult> {
-    const prompt = `
-        You are an expert career advisor and skills analyst. 
-        Your task is to analyze the provided PDF resume and compare the user's skills and experience against the given job description.
-
-        First, thoroughly read and understand the user's resume from the attached PDF.
-        Then, analyze the following job description.
-        
-        **Job Description:**
-        ---
-        ${jobDescription}
-        ---
-        
-        Based on your analysis of both the resume and the job description, identify two lists of skills:
-        1.  **Matched Skills:** Skills and experiences from the user's resume that are directly mentioned or strongly implied in the job description.
-        2.  **Skills to Develop:** Key skills or qualifications required by the job description that appear to be missing from the user's resume.
-
-        Provide a concise list of the most important skills for each category.
-    `;
-
-    try {
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash', // Using a model that supports multimodal input
-            contents: {
-                parts: [
-                    { inlineData: { data: base64pdf, mimeType: mimeType } },
-                    { text: prompt }
-                ]
-            },
-            config: {
-                responseMimeType: 'application/json',
-                responseSchema: responseSchema,
-                temperature: 0.2,
-            }
-        });
-
-        const jsonText = response.text.trim();
-        return JSON.parse(jsonText) as AnalysisResult;
-    } catch (error) {
-        console.error("Error calling Gemini API with PDF:", error);
-        throw new Error("Failed to get analysis from Gemini API.");
-    }
+    const prompt = createPdfAnalysisPrompt(jobDescription);
+    const contents = {
+        parts: [
+            { inlineData: { data: base64pdf, mimeType: mimeType } },
+            { text: prompt }
+        ]
+    };
+    return performAnalysis(contents);
 }
